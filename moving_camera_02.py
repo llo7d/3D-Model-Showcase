@@ -54,8 +54,11 @@ def create_camera_target(camera,target):
 # Deselect All
 bpy.ops.object.select_all(action='DESELECT')
 
+# Choose camera type 'PANO', 'PERSP' and 'ORTHO' 
+bpy.data.cameras['Camera'].type = 'PERSP'
+
 #Select the Targget
-bpy.data.objects['Camera'].select_set(True)
+bpy.data.objects['Camera'].(True)
 
 #Reset all camera location to 0
 bpy.ops.object.location_clear(clear_delta=False)
