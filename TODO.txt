@@ -1,12 +1,16 @@
-Goal 1:
-- Move the camera in the places I want it to go automaticly.
+Day 1 Goals:
 
+    Goal 1: ( X )
+    - Move the camera in the places I want it to go automaticly.
+    Goal 2:
+    - Create a Viewport Render(X) and a Viewframe render( )automaticly
+    
 
-Goal 2:
-- Create a Viewport Render and a Viewframe render automaticly
-
-
-Goal 3:
-- Try to adapt the script to work on a character ( not auto place but base on "selected location " )
-
-
+DAY 2 TODO: 
+    
+    Todo 1:
+        - Render multiple images. (FIX BUG) ( ) 
+    Todo 2:
+        - Toggle WireFrame Mode with Code ( )   
+    Todo 3:
+    - Start testing the code on an actual file I need images for.

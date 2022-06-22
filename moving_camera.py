@@ -21,7 +21,7 @@ bpy.ops.transform.rotate(value=1.5708, orient_axis='X', orient_type='GLOBAL', or
 bpy.ops.transform.translate(value=(-0, -9.03681, -0), orient_axis_ortho='X', orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(False, True, False), mirror=False, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
 
 # Change Output data
-bpy.context.scene.render.filepath = "//Render/Preview_"
+#bpy.context.scene.render.filepath = "//Render/Preview_"
 
 
 # Good info @ https://www.youtube.com/watch?v=_vbod5s_EmQ 5:25
