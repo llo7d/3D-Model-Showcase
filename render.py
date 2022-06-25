@@ -9,6 +9,9 @@ path = r"E:\Zudrit Studios\Projects\Peter Lloyd Youtube\3 - why learn code\3D-Mo
 
 lst=os.listdir(path)
 
+
+print(lst)
+
 file_number = 0 
 
 # Inscrease file_number based on last rendered file.
@@ -27,18 +30,13 @@ bpy.data.scenes[sce].render.filepath = "//CloseUp/cl_" + str(file_number)
 for area in bpy.context.screen.areas:
     if area.type == 'VIEW_3D':
         area.spaces[0].region_3d.view_perspective = 'CAMERA'
-        area.spaces[0].shading.type = 'MATERIAL'
-
+        area.spaces[0].shading.type = 'WIREFRAME'
         break
     
-#TODO: 
-# Toggle the viewport shading modes 
-# Try to also "Render" not just viewport Render.
-# bpy.data.objects['Camera'].data.show_wire = True
-
+    
 # Render image through viewport
 bpy.ops.render.opengl(write_still=True)
-        
+#bpy.ops.render.render(write_still=True)        
 
     
 

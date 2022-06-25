@@ -9,8 +9,15 @@ Day 1 Goals:
 DAY 2 TODO: 
     
     Todo 1:
-        - Render multiple images. (FIX BUG) ( ) 
+        - Render multiple images. (FIX BUG) ( X ) 
     Todo 2:
-        - Toggle WireFrame Mode with Code ( )   
-    Todo 3:
-    - Start testing the code on an actual file I need images for.
+        - Toggle WireFrame Mode with Code ( X )   
+    Todo 3(NEW) : 
+        - "Enable constraints" ( X )
+    Todo 4:
+        - Start testing the code on an actual file I need images for. (  ) 
+     
+        
+DAY 3 TODO:
+    TODO 1:
+    - Start testing the code on an actual file I need images for. (  ) 

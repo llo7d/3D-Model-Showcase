@@ -4,18 +4,16 @@ import bpy
 #Deselect all
 bpy.ops.object.select_all(action='DESELECT')
 
-# Check if we alrdy have a target, if not, create it.
+# Create a empty cube as a target.
 def create_target():
     
     objects = bpy.context.scene.objects
 
     for obj in objects:
         if obj.type == "EMPTY":
-            print("bingo")
+            print("Target Already Exists")
             return False
-            break;
         else:
-            create_target()
             o = bpy.data.objects.new( "empty", None )
 
             # due to the new mechanism of "collection"
@@ -47,7 +45,8 @@ def create_camera_target(camera,target):
     bpy.ops.object.select_all(action='DESELECT')
     return True
 
-    
+
+create_camera_target("Camera","Target")  
  
 # create_camera_target('Camera', "Target")
 
@@ -58,7 +57,7 @@ bpy.ops.object.select_all(action='DESELECT')
 bpy.data.cameras['Camera'].type = 'PERSP'
 
 #Select the Targget
-bpy.data.objects['Camera'].(True)
+bpy.data.objects['Camera'].select_set(True)
 
 #Reset all camera location to 0
 bpy.ops.object.location_clear(clear_delta=False)
@@ -73,4 +72,4 @@ bpy.ops.object.scale_clear(clear_delta=False)
 #bpy.ops.transform.translate(value=(6.91913, -7.2602, 1.01801), orient_axis_ortho='X', orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', mirror=False, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
 
 # Camera position 3
-#bpy.ops.transform.translate(value=(0, 0, 28.404), orient_axis_ortho='X', orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(False, False, True), mirror=False, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
+bpy.ops.transform.translate(value=(0, 0, 28.404), orient_axis_ortho='X', orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(False, False, True), mirror=False, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
