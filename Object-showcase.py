@@ -57,7 +57,7 @@ def move_target_face():
         bpy.context.object.location[i] = target_location[i]
         
     #Move the target on the z axis 2 int more.
-    bpy.context.object.location[2] = target_location[2] + 2
+    bpy.context.object.location[2] = target_location[2] -2
     
     #Set y location to 0
     bpy.context.object.location[1] = 0
@@ -81,14 +81,7 @@ def camera_face_preview():
     #move_target_face()
     
     # Create a list of poistions and then with for loop render each. 
-    camera_positions = [
-    bpy.ops.transform.translate(value=(-0, -9.03681, -0), orient_axis_ortho='X', orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(False, True, False), mirror=False, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
-    ,
-    bpy.ops.transform.translate(value=(-0, -9.03681, -0), orient_axis_ortho='X', orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(False, True, False), mirror=False, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
-    ,
-    bpy.ops.transform.translate(value=(0, 0, 28.404), orient_axis_ortho='X', orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(False, False, True), mirror=False, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
-    
-    ]
+    camera_positions = [[7.23, -10, 13.1],[]]
 
     # Deselect All
     bpy.ops.object.select_all(action='DESELECT')
@@ -96,7 +89,7 @@ def camera_face_preview():
     camera_obj = bpy.data.objects["Camera"]
 
     # Choose camera type 'PANO', 'PERSP' and 'ORTHO' 
-    bpy.data.cameras['Camera'].type = 'PERSP'
+    bpy.data.cameras['Camera'].type = 'ORTHO'
 
     #Select the Targget
     camera_obj.select_set(True)
@@ -107,12 +100,8 @@ def camera_face_preview():
         camera_obj.location[i] = 0
         camera_obj.rotation_euler[i] = 0
     
-    #Reset all camera location to 0
-    #bpy.ops.object.location_clear(clear_delta=False)
-    #bpy.ops.object.rotation_clear(clear_delta=False)
-    #bpy.ops.object.scale_clear(clear_delta=False)
     
-
+    
     # Camera position 1
     #bpy.ops.transform.translate(value=(-0, -9.03681, -0), orient_axis_ortho='X', orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(False, True, False), mirror=False, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
 
