@@ -1,14 +1,14 @@
 import bpy
 import os
-from bpy import context
+#from bpy import context
 
 # Set save path
 sce = bpy.context.scene.name
 
-path = r"E:\Zudrit Studios\Projects\Peter Lloyd Youtube\3 - why learn code\3D-Model-Showcase\CloseUp"
+#path = r"E:\Zudrit Studios\Projects\Peter Lloyd Youtube\3 - why learn code\3D-Model-Showcase\CloseUp"
+path = r"E:\Zudrit Studios\Projects\_BLRDY_\02_3D_Disney_Style\06_3D_White_Teen_Girl(D)\White Teen Girl (Waitriss)\Rigged\CloseUp"
 
 lst=os.listdir(path)
-
 
 print(lst)
 
@@ -30,7 +30,7 @@ bpy.data.scenes[sce].render.filepath = "//CloseUp/cl_" + str(file_number)
 for area in bpy.context.screen.areas:
     if area.type == 'VIEW_3D':
         area.spaces[0].region_3d.view_perspective = 'CAMERA'
-        area.spaces[0].shading.type = 'WIREFRAME'
+        area.spaces[0].shading.type = 'MATERIAL'
         break
     
     

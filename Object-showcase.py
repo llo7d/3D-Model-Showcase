@@ -80,8 +80,16 @@ def move_target_long():
 def camera_face_preview():
     #move_target_face()
     
+    
+    camera_locations = [
+        [3,2,4],
+        [4,4,4],
+        [5,5,5],
+    ]
+
+        
     # Create a list of poistions and then with for loop render each. 
-    camera_positions = [[7.23, -10, 13.1],[]]
+    #camera_positions = [[7.23, -10, 13.1],[]]
 
     # Deselect All
     bpy.ops.object.select_all(action='DESELECT')
@@ -99,6 +107,13 @@ def camera_face_preview():
     for i in range(3):
         camera_obj.location[i] = 0
         camera_obj.rotation_euler[i] = 0
+    
+    for i in camera_locations:
+        for j in range(3):
+            # change position
+            camera_obj.location[j] = i[j]
+        
+    
     
     
     
