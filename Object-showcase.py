@@ -1,5 +1,8 @@
 import bpy 
 import time
+import os
+from bpy import context
+
 
 
 #Deselect all
@@ -75,16 +78,55 @@ def move_target_body():
 
 def move_target_long():
     print("hey")
+    
+    
+def viewport_render(render_type):
+
+    print(render_type)
+    #path = r"E:\Zudrit Studios\Projects\Peter Lloyd Youtube\3 - why learn code\3D-Model-Showcase\CloseUp"
+    path = r"E:\Zudrit Studios\Projects\_BLRDY_\02_3D_Disney_Style\06_3D_White_Teen_Girl(D)\White Teen Girl (Waitriss)\Rigged\CloseUp"
+
+    lst=os.listdir(path)
+
+    print(lst)
+
+    file_number = 0 
+
+    # Inscrease file_number based on last rendered file.
+    for i in lst:
+        if int(i[3:-4]) <= file_number:
+            file_number += 1
+            
+        
+    sce = bpy.context.scene.name
+
+    # Brakes if we have more then one images, so needs to be a for loop in the future.
+    bpy.data.scenes[sce].render.filepath = "//CloseUp/cl_" + str(file_number) 
+
+    # Go into camera-view
+    for area in bpy.context.screen.areas:
+        if area.type == 'VIEW_3D':
+            area.spaces[0].region_3d.view_perspective = 'CAMERA'
+            area.spaces[0].shading.type = 'MATERIAL'
+            
+            
+            break
+        
+        
+    # Render image through viewport
+    bpy.ops.render.opengl(write_still=True)
+    
+        
 
 
 def camera_face_preview():
     #move_target_face()
     
-    
+    # List of camera angels # xyz
     camera_locations = [
-        [3,2,4],
-        [4,4,4],
-        [5,5,5],
+        [7.23,-10,13.1],
+        [10.3,0.17,12.6],
+        [-0.4,8,11],
     ]
 
         
@@ -102,28 +144,22 @@ def camera_face_preview():
     #Select the Targget
     camera_obj.select_set(True)
     
-    # Set camera location & rotation to 0
-    
-    for i in range(3):
-        camera_obj.location[i] = 0
-        camera_obj.rotation_euler[i] = 0
-    
+
+    # Loop trough list of poses and then viewport render
     for i in camera_locations:
+        
+        # change position
         for j in range(3):
-            # change position
             camera_obj.location[j] = i[j]
         
+        # render
+        viewport_render("Close_Up")
+        
+        # reset camera location
+        for i in range(3):
+            camera_obj.location[i] = 0
+            camera_obj.rotation_euler[i] = 0
     
+        
     
-    
-    
-    # Camera position 1
-    #bpy.ops.transform.translate(value=(-0, -9.03681, -0), orient_axis_ortho='X', orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(False, True, False), mirror=False, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
-
-    # Camera position 2
-    #bpy.ops.transform.translate(value=(6.91913, -7.2602, 1.01801), orient_axis_ortho='X', orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', mirror=False, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
-
-    # Camera position 3
-    #bpy.ops.transform.translate(value=(0, 0, 28.404), orient_axis_ortho='X', orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(False, False, True), mirror=False, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', proportional_size=1, use_proportional_connected=False, use_proportional_projected=False)
-
 camera_face_preview()
