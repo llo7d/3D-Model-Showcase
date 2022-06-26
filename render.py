@@ -31,7 +31,14 @@ for area in bpy.context.screen.areas:
     if area.type == 'VIEW_3D':
         area.spaces[0].region_3d.view_perspective = 'CAMERA'
         area.spaces[0].shading.type = 'MATERIAL'
-        break
+        
+
+    # Disable / Enable "Show_Overlays"
+    for space in area.spaces:
+        if space.type == 'VIEW_3D':
+            space.overlay.show_overlays = True
+            break
+    break
     
     
 # Render image through viewport

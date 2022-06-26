@@ -1,7 +1,5 @@
 import bpy 
-import time
 import os
-from bpy import context
 
 
 
@@ -82,10 +80,10 @@ def move_target_long():
     
 def viewport_render(render_type):
 
+    # Getting the path:
+    # print("File      Path:",os.path.dirname(os.path.abspath(__file__)))
     print(render_type)
-    #path = r"E:\Zudrit Studios\Projects\Peter Lloyd Youtube\3 - why learn code\3D-Model-Showcase\CloseUp"
     path = r"E:\Zudrit Studios\Projects\_BLRDY_\02_3D_Disney_Style\06_3D_White_Teen_Girl(D)\White Teen Girl (Waitriss)\Rigged\CloseUp"
-
     lst=os.listdir(path)
 
     print(lst)
@@ -108,11 +106,13 @@ def viewport_render(render_type):
         if area.type == 'VIEW_3D':
             area.spaces[0].region_3d.view_perspective = 'CAMERA'
             area.spaces[0].shading.type = 'MATERIAL'
-            
-            
-            break
-        
-        
+                
+        # Disable / Enable "Show_Overlays"
+        for space in area.spaces:
+            if space.type == 'VIEW_3D':
+                space.overlay.show_overlays = True
+                break
+        break
     # Render image through viewport
     bpy.ops.render.opengl(write_still=True)
     
