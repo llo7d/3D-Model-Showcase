@@ -29,16 +29,23 @@ bpy.data.scenes[sce].render.filepath = "//CloseUp/cl_" + str(file_number)
 # Go into camera-view
 for area in bpy.context.screen.areas:
     if area.type == 'VIEW_3D':
+        # Go into the camera
         area.spaces[0].region_3d.view_perspective = 'CAMERA'
-        area.spaces[0].shading.type = 'MATERIAL'
+        # Select shading type
+        area.spaces[0].shading.type = 'WIREFRAME'
+        # If shading type "Wireframe" then toggle xray off
         
-
+        
     # Disable / Enable "Show_Overlays"
     for space in area.spaces:
         if space.type == 'VIEW_3D':
-            space.overlay.show_overlays = True
-            break
-    break
+            space.overlay.show_overlays = False
+            
+        
+           
+# using bpy.types.View3DShading.show_xray_wireframe toggle xray off.
+
+                
     
     
 # Render image through viewport
