@@ -156,15 +156,14 @@ def viewport_render(shading_type):
                 
                     
         
-    
-                
-        
         
     # Render image through viewport
     #bpy.ops.render.opengl(write_still=True)
     
-    #
-    bpy.ops.render.render(write_still=True)  
+    if shading_type != "RENDERED":
+        bpy.ops.render.opengl(write_still=True)
+    else:
+        bpy.ops.render.render(write_still=True)  
     
         
 
@@ -211,9 +210,11 @@ def preview_360(preview_type):
             camera_obj.location[i] = 0
             camera_obj.rotation_euler[i] = 0
     
-        
+        ,
+preview_360("MATERIAL")
+preview_360("WIREFRAME")
 preview_360("RENDERED")
-#viewport_render("WIREFRAME")
+
 
 
 #Instructions:
