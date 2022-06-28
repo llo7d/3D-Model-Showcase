@@ -67,17 +67,11 @@ def move_target_face():
     bpy.ops.object.select_all(action='DESELECT')
     
 
-    
-    
-    print("hey")
 
 def move_target_body():
     print("hey")
 
-def move_target_long():
-    print("hey")
-    
-    
+       
 def viewport_render(render_type):
 
     # Getting the path:
@@ -124,11 +118,12 @@ def camera_face_preview():
     
     # List of camera angels # xyz
     camera_locations = [
+        [0,-29.5, 11.5],
         [7.23,-10,13.1],
-        [10.3,0.17,12.6],
-        [-0.4,8,11],
+        [10.3,0.17,11.5],
+        [-0.4,8,11.5],
     ]
-
+    # [0,-29.5, 11.5],
         
     # Create a list of poistions and then with for loop render each. 
     #camera_positions = [[7.23, -10, 13.1],[]]
@@ -139,15 +134,17 @@ def camera_face_preview():
     camera_obj = bpy.data.objects["Camera"]
 
     # Choose camera type 'PANO', 'PERSP' and 'ORTHO' 
-    bpy.data.cameras['Camera'].type = 'ORTHO'
+    bpy.data.cameras['Camera'].type = 'PERSP'
 
     #Select the Targget
     camera_obj.select_set(True)
     
+    for i in range(3):
+        camera_obj.location[i] = 0
+        camera_obj.rotation_euler[i] = 0
 
     # Loop trough list of poses and then viewport render
     for i in camera_locations:
-        
         # change position
         for j in range(3):
             camera_obj.location[j] = i[j]
@@ -155,7 +152,7 @@ def camera_face_preview():
         # render
         viewport_render("Close_Up")
         
-        # reset camera location
+        #reset camera location
         for i in range(3):
             camera_obj.location[i] = 0
             camera_obj.rotation_euler[i] = 0
