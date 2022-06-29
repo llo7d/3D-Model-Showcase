@@ -1,5 +1,6 @@
 import bpy 
 import os
+import pathlib
 
 
 
@@ -7,58 +8,105 @@ import os
 bpy.ops.object.select_all(action='DESELECT')
 
 
-# create function that delete all cameras
-def delete_cameras():
-    print("delte em")
+def delete_all_cameras_and_empty_objects():
+
+
+    # Delete all the Camera Objetcs
+    bpy.ops.object.select_all(action='DESELECT')
+    
+    for o in bpy.context.scene.objects:
+        if o.type == 'CAMERA':
+            o.select_set(True)
+        else:
+            o.select_set(False)
+    
+    bpy.ops.object.delete()
+    
+    
+    # Delete the Empty objects
+    bpy.ops.object.select_all(action='DESELECT')
+    
+    for o in bpy.context.scene.objects:
+        if o.type == 'EMPTY':
+            o.select_set(True)
+        else:
+            o.select_set(False)
+            
+  
+    bpy.ops.object.delete()
+    
+    
+    # Save and re-open the file to clean up the data blocks
+    bpy.ops.wm.save_as_mainfile(filepath=bpy.data.filepath)
+    bpy.ops.wm.open_mainfile(filepath=bpy.data.filepath)
+
     
 def create_settings():
+    # Disable Simplfy
+    # File format PNG, Color: RGBA, FILM: Enable Transparent, Resolution 1920x1080, 100% Resolution
     print("maybe some settings defaults need to be created")
     
 
 # Create a empty cube as a target.
-def create_target():
+def create_target_and_camera():
     
-    objects = bpy.context.scene.objects
+    
+    # Creating the Camera    
+    camera_data = bpy.data.cameras.new(name='Camera')
+    camera_object = bpy.data.objects.new('Camera', camera_data)
+    bpy.context.scene.collection.objects.link(camera_object)
+        
+    
+    # Creating empty box with the name Target
+    o = bpy.data.objects.new( "empty", None )
+    bpy.context.scene.collection.objects.link( o )
 
-    for obj in objects:
-        if obj.type == "EMPTY":
-            print("Target Already Exists")
-            return False
-        else:
-            o = bpy.data.objects.new( "empty", None )
+    o.empty_display_size = 2
+    o.empty_display_type = 'CUBE'
 
-            # due to the new mechanism of "collection"
-            bpy.context.scene.collection.objects.link( o )
+    o.select_set(True)
 
-            # empty_draw was replaced by empty_display
-            o.empty_display_size = 2
-            o.empty_display_type = 'CUBE'
-
-            o.select_set(True)
-
-            for obj in bpy.context.selected_objects:
-                obj.name = "Target"
+    for obj in bpy.context.selected_objects:
+        obj.name = "Target"
        
-            return True
-#Select the Camera.
-#bpy.data.objects['Camera'].select_set(True)
-
-def create_camera_target(camera,target):
+       
+    # Adding the "Track to" constraint to the camera.
+    constraint = bpy.data.objects["Camera"].constraints.new(type='TRACK_TO')
+    constraint.target = bpy.data.objects["Target"]
     
-    # Her we should run, delet_cameras(), create_target()
-    
-    camera_obj = bpy.data.objects[camera]
-    target_obj = bpy.data.objects[target]
-    
-    
-    constraint = camera_obj.constraints.new(type='TRACK_TO')
-    constraint.target = target_obj
-    # deselect all if anything was selected
+    # Deselecting all if anything was selected
     bpy.ops.object.select_all(action='DESELECT')
-    return True
-
-def move_target_face():
        
+    
+
+  
+def create_folders():
+    #Here with the provide path to the file we create the required folders. Very shit, should be done alot better.
+    #current_directory = os.path.abspath(__file__) #+  "/"+"360"+"/"+"WIREFRAME"
+    
+    # TODO: Create "Material/Wireframe/Rendered" folders.
+    # bpy.data.filepath
+    # Leaf directory 
+    directory = "360/WIREFRAME"
+     
+    # Parent Directories 
+    #parent_dir = bpy.data.filepath
+    
+    
+    pwd = bpy.data.filepath
+    parent = os.path.join(pwd, os.pardir)
+    file_root_path = os.path.abspath(parent)
+    
+    pathlib.Path('/360/WIREFRAME').mkdir(parents=True, exist_ok=True) 
+
+    
+    
+
+    
+            
+def move_target_body(object_name):
+    
+    print(object_name)
     #Grab current location or face or hair #x,y,z
     target_location = bpy.data.objects["hair"].location
     
@@ -76,35 +124,9 @@ def move_target_face():
     
     # Deselect All
     bpy.ops.object.select_all(action='DESELECT')
-    
-def create_folders(path):
-    #Here with the provide path to the file we create the required folders. Very shit, should be done alot better.
-    #current_directory = os.path.abspath(__file__) #+  "/"+"360"+"/"+"WIREFRAME"
-    
-    # Leaf directory 
-    directory = "360/WIREFRAME"
+  
      
-    # Parent Directories 
-    parent_dir = path
-        
-    # mode 
-    mode = 0o666
-        
-    path = os.path.join(parent_dir, directory) 
-        
-    # Create the directory 'c' 
-         
-    os.mkdir(path, mode) 
-    print("Directory '% s' created" % directory) 
-        
-        
-
-def move_target_body():
-    # take the current body z location / 2 and place the emty there, for the 360.
-    print("hey")
-
-       
-def viewport_render(shading_type):
+def render(shading_type):
 
      
     sce = bpy.context.scene.name
@@ -167,6 +189,35 @@ def viewport_render(shading_type):
     
         
 
+# This is the first function you should call to setup the file to generate the images.
+def initial_setup():
+    
+    print("hey")
+    
+        
+    # Delete all cameras ( X )
+    #delete_all_cameras_and_empty_objects():
+    
+    # This function creates a camera that tracks the target (It also creates the Empty Box Target) 
+    # create_target_and_camera() ( X )
+    
+    # This function creates all the folders required for a 360 render.
+    # Provide a path to the current file location.
+    # create_folders()
+    
+    # This function moves the target to the middle of the 3d object.
+    # move_target_body()
+        
+    # Settings, like transparent background, 1920x1080 res etc...
+    # create_settings()
+        
+        
+
+
+    
+
+
+# This is the second function you should call with the type of shading you want for yout 360
 # Shading Type, Shading type name, 
 def preview_360(preview_type):
     #move_target_face()
@@ -203,17 +254,27 @@ def preview_360(preview_type):
             camera_obj.location[j] = i[j]
         
         # render ( # Shading Type, Shading type name, Path ? )
-        viewport_render(preview_type)
+        render(preview_type)
         
         # Reset he camera location
         for i in range(3):
             camera_obj.location[i] = 0
             camera_obj.rotation_euler[i] = 0
+            
+            
+            
+        
+create_folders()
     
-        ,
-preview_360("MATERIAL")
-preview_360("WIREFRAME")
-preview_360("RENDERED")
+##########################################################################################################################################################
+##########################################################################################################################################################
+##########################################################################################################################################################
+##########################################################################################################################################################
+##########################################################################################################################################################
+
+#preview_360("MATERIAL")
+#preview_360("WIREFRAME")
+#preview_360("RENDERED")
 
 
 
@@ -222,9 +283,12 @@ preview_360("RENDERED")
 # Run "delete_all_cameras_and_targets" 
 # Run "create_camera_target"
 # Create good instructions to also use for github ( generate 5 images of a 360 of a model in Wireframe,solid and render view )
-#
-#
-#
+# TODO:
+# Create a function that is called "Initial setup" that has the, delte cameras, create camera, create target etc... 
+
+# 
+# 1.
+# 2.
 #
 #
 #
