@@ -109,19 +109,18 @@ def create_settings():
 
 def render(shading_type):
 
-     
     sce = bpy.context.scene.name
     file_number = 0 
     
     # Initialize Path
     bpy.data.scenes[sce].render.filepath = "//"+"360"+"/"+shading_type + "/" + "360"+"_" + str(file_number) 
 
-    # Getting the path:
-    # function that checks if this is wireframe/material and auto goes to that path, but his is too manual.
-    path = r'E:\Zudrit Studios\Projects\_BLRDY_\02_3D_Disney_Style\06_3D_White_Teen_Girl(D)\White Teen Girl (Waitriss)\Rigged'
-    nPath = path + "/" + "360" + "/" + shading_type
+    # Getting the current file path: 
+    file_root_path = os.path.abspath(os.path.join(bpy.data.filepath, os.pardir))
+    nPath = file_root_path + "/" + "360" + "/" + shading_type
 
     
+    # lst of all images in current renderd path
     lst=os.listdir(nPath)
 
 
@@ -140,29 +139,30 @@ def render(shading_type):
         screen = window.screen
         
         
-    # Go into camera-view
     for area in bpy.context.screen.areas:
         if area.type == 'VIEW_3D':
+            
+            # Going into camera view and changing shading type
             area.spaces[0].region_3d.view_perspective = 'CAMERA'
             area.spaces[0].shading.type = str(shading_type)
             
+            # Toogle xray off.
             if area.spaces[0].shading.show_xray_wireframe:
+                # This is depriciated, need a new way maybe later
+                # Context.temp_override(..), calling "view3d.toggle_xray"
+
                 override = {'window': window, 'screen': screen, 'area': area}
                 bpy.ops.view3d.toggle_xray(override)
-            
-
+                
 
         # Disable / Enable "Show_Overlays"
         for space in area.spaces:
             if space.type == 'VIEW_3D':
                 space.overlay.show_overlays = False
                 
-                    
+               
         
-        
-    # Render image through viewport
-    #bpy.ops.render.opengl(write_still=True)
-    
+    # Render image through viewport  
     if shading_type != "RENDERED":
         bpy.ops.render.opengl(write_still=True)
     else:
@@ -174,7 +174,6 @@ def render(shading_type):
 # This is the second function you should call with the type of shading you want for yout 360
 # Shading Type, Shading type name, 
 def preview_360(preview_type):
-    #move_target_face()
     
     # List of camera angels # xyz
     camera_locations = [
@@ -184,17 +183,17 @@ def preview_360(preview_type):
         [0,42,9.5],
         [-29.9,29.9,9.5],
     ]
-
-    # Deselect All
-    bpy.ops.object.select_all(action='DESELECT')
     
+    for area in bpy.context.screen.areas:
+        if area.type == 'VIEW_3D':
+            # Going into camera view
+            area.spaces[0].region_3d.view_perspective = 'CAMERA'
+    
+
     camera_obj = bpy.data.objects["Camera"]
 
     # Choose camera type 'PANO', 'PERSP' and 'ORTHO' 
     bpy.data.cameras['Camera'].type = 'PERSP'
-
-    #Select the Targget
-    camera_obj.select_set(True)
     
     # Reset he camera location
     for i in range(3):
@@ -237,13 +236,15 @@ def create_360_preview():
     # move_target_body("hair") ( X )
         
     # Great function name, does what it says.
-    # create_settings()
+    # create_settings() ( X )
         
     # Now that all is setup we can run and render the poses.
     # preview_360("WIREFRAME") # Can probaly simplfy this part aswell.
+    
+preview_360("MATERIAL")
+preview_360("WIREFRAME")
+preview_360("RENDERED")
 
-            
-create_settings()  
 
     
 ##########################################################################################################################################################
