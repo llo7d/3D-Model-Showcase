@@ -1,6 +1,7 @@
 import bpy 
 import os
 import pathlib
+import math
 
 
 
@@ -40,12 +41,6 @@ def delete_all_cameras_and_empty_objects():
     bpy.ops.wm.save_as_mainfile(filepath=bpy.data.filepath)
     bpy.ops.wm.open_mainfile(filepath=bpy.data.filepath)
 
-    
-def create_settings():
-    # Disable Simplfy
-    # File format PNG, Color: RGBA, FILM: Enable Transparent, Resolution 1920x1080, 100% Resolution
-    print("maybe some settings defaults need to be created")
-    
 
 # Create a empty cube as a target.
 def create_target_and_camera():
@@ -81,18 +76,8 @@ def create_target_and_camera():
 
   
 def create_folders():
-    #Here with the provide path to the file we create the required folders. Very shit, should be done alot better.
-    #current_directory = os.path.abspath(__file__) #+  "/"+"360"+"/"+"WIREFRAME"
     
-    # TODO: Create "Material/Wireframe/Rendered" folders.
-    # bpy.data.filepath
-    # Leaf directory 
-    directory = "360/WIREFRAME"
-     
-    # Parent Directories 
-    #parent_dir = bpy.data.filepath
-    
-    
+    # Thi function creates 3 folders that are required for the 360 renders.
     pwd = bpy.data.filepath
     parent = os.path.join(pwd, os.pardir)
     file_root_path = os.path.abspath(parent)
@@ -105,26 +90,23 @@ def create_folders():
             
 def move_target_body(object_name):
     
-    print(object_name)
-    #Grab current location or face or hair #x,y,z
-    target_location = bpy.data.objects["hair"].location
+    # Target
+    target = bpy.data.objects['Target']
     
-    #Move to the target to that location
-    bpy.data.objects['Target'].select_set(True)
+    # Moving the target to the middle of "object_name" provide 
+    target.location[2] = math.ceil(bpy.data.objects[object_name].location[2]) / 2 + 1
     
-    for i in range(3):
-        bpy.context.object.location[i] = target_location[i]
-        
-    #Move the target on the z axis 2 int more.
-    bpy.context.object.location[2] = target_location[2] -2
+
+
+def create_settings():
+    bpy.data.scenes["Scene"].render.use_simplify = False
+    bpy.data.scenes["Scene"].render.film_transparent = True
+    bpy.data.scenes["Scene"].render.use_overwrite = False
+    bpy.data.scenes["Scene"].render.use_placeholder = True
+    bpy.data.scenes["Scene"].render.image_settings.color_mode = "RGBA"
+
     
-    #Set y location to 0
-    bpy.context.object.location[1] = 0
-    
-    # Deselect All
-    bpy.ops.object.select_all(action='DESELECT')
-  
-     
+
 def render(shading_type):
 
      
@@ -186,35 +168,8 @@ def render(shading_type):
     else:
         bpy.ops.render.render(write_still=True)  
     
-        
-
-# This is the first function you should call to setup the file to generate the images.
-def initial_setup():
-    
-    print("hey")
-    
-        
-    # Delete all cameras ( X )
-    #delete_all_cameras_and_empty_objects():
-    
-    # This function creates a camera that tracks the target (It also creates the Empty Box Target) 
-    # create_target_and_camera() ( X )
-    
-    # This function creates all the folders required for a 360 render.
-    # Provide a path to the current file location.
-    # create_folders()
-    
-    # This function moves the target to the middle of the 3d object.
-    # move_target_body()
-        
-    # Settings, like transparent background, 1920x1080 res etc...
-    # create_settings()
-        
-        
-
 
     
-
 
 # This is the second function you should call with the type of shading you want for yout 360
 # Shading Type, Shading type name, 
@@ -260,10 +215,36 @@ def preview_360(preview_type):
             camera_obj.location[i] = 0
             camera_obj.rotation_euler[i] = 0
             
-            
-            
+
+
+# This is the main function you should call.
+# You can adjust the functions below incase you dont want to generate all Shader types.
+def create_360_preview():
+    
+    print("hey")
         
-create_folders()
+    # Delete all cameras ( X )
+    #delete_all_cameras_and_empty_objects():
+    
+    # This function creates a camera that tracks the target (It also creates the Empty Box Target) 
+    # create_target_and_camera() ( X )
+    
+    # This function creates all the folders required for a 360 render.
+    # create_folders() ( X )
+    
+    # Object name that we want to place our target in the middle of needs to be provide
+    # In our case its "hair"
+    # move_target_body("hair") ( X )
+        
+    # Great function name, does what it says.
+    # create_settings()
+        
+    # Now that all is setup we can run and render the poses.
+    # preview_360("WIREFRAME") # Can probaly simplfy this part aswell.
+
+            
+create_settings()  
+
     
 ##########################################################################################################################################################
 ##########################################################################################################################################################
