@@ -97,11 +97,10 @@ def create_folders():
     parent = os.path.join(pwd, os.pardir)
     file_root_path = os.path.abspath(parent)
     
-    pathlib.Path('/360/WIREFRAME').mkdir(parents=True, exist_ok=True) 
-
+    pathlib.Path(file_root_path + '/360/WIREFRAME').mkdir(parents=True, exist_ok=True) 
+    pathlib.Path(file_root_path + '/360/MATERIAL').mkdir(parents=True, exist_ok=True)
+    pathlib.Path(file_root_path + '/360/RENDERED').mkdir(parents=True, exist_ok=True)
     
-    
-
     
             
 def move_target_body(object_name):
