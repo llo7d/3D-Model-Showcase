@@ -5,6 +5,7 @@ import math
 
 
 
+
 #Deselect all
 bpy.ops.object.select_all(action='DESELECT')
 
@@ -59,10 +60,7 @@ def create_target_and_camera():
     o.empty_display_size = 2
     o.empty_display_type = 'CUBE'
 
-    o.select_set(True)
-
-    for obj in bpy.context.selected_objects:
-        obj.name = "Target"
+    o.name = "Target"
        
        
     # Adding the "Track to" constraint to the camera.
@@ -108,7 +106,7 @@ def create_settings():
     
 
 def render(shading_type):
-
+    
     sce = bpy.context.scene.name
     file_number = 0 
     
@@ -143,7 +141,7 @@ def render(shading_type):
         if area.type == 'VIEW_3D':
             
             # Going into camera view and changing shading type
-            area.spaces[0].region_3d.view_perspective = 'CAMERA'
+            # area.spaces[0].region_3d.view_perspective = 'CAMERA'
             area.spaces[0].shading.type = str(shading_type)
             
             # Toogle xray off.
@@ -185,11 +183,16 @@ def preview_360(preview_type):
     ]
     
     for area in bpy.context.screen.areas:
-        if area.type == 'VIEW_3D':
+        if area.type == 'VIEW_3D': 
             # Going into camera view
             area.spaces[0].region_3d.view_perspective = 'CAMERA'
+            #context.space_data.region_3d.view_perspective = 'CAMERA'
+            break
+        
+    bpy.ops.view3d.camera_to_view.poll()
+    #bpy.ops.view3d.camera_to_view()
+    #bpy.ops.view3d.view_camera()
     
-
     camera_obj = bpy.data.objects["Camera"]
 
     # Choose camera type 'PANO', 'PERSP' and 'ORTHO' 
@@ -214,63 +217,52 @@ def preview_360(preview_type):
             camera_obj.location[i] = 0
             camera_obj.rotation_euler[i] = 0
             
+            
+def go_into_camera_view():
 
+    scene = bpy.context.scene
+    scene.camera = bpy.data.objects['Camera']
 
-# This is the main function you should call.
-# You can adjust the functions below incase you dont want to generate all Shader types.
-def create_360_preview():
-    
-    print("hey")
+    for area in bpy.context.screen.areas:
+        if area.type == 'VIEW_3D':
+            area.spaces.active.region_3d.view_perspective = 'CAMERA'
+            break
+
+def setup(object_name):
+    # Delete all cameras
+    delete_all_cameras_and_empty_objects()
         
-    # Delete all cameras ( X )
-    #delete_all_cameras_and_empty_objects():
-    
-    # This function creates a camera that tracks the target (It also creates the Empty Box Target) 
-    # create_target_and_camera() ( X )
-    
+    # This function creates a camera that tracks the target
+    create_target_and_camera()
+        
     # This function creates all the folders required for a 360 render.
-    # create_folders() ( X )
-    
-    # Object name that we want to place our target in the middle of needs to be provide
-    # In our case its "hair"
-    # move_target_body("hair") ( X )
+    create_folders()
         
+    # Object name that we want to place our target in the middle of
+    move_target_body(object_name)
+            
     # Great function name, does what it says.
-    # create_settings() ( X )
-        
-    # Now that all is setup we can run and render the poses.
-    # preview_360("WIREFRAME") # Can probaly simplfy this part aswell.
+    create_settings()
     
-preview_360("MATERIAL")
-preview_360("WIREFRAME")
-preview_360("RENDERED")
-
-
+    # Go into camera view.
+    go_into_camera_view()
     
-##########################################################################################################################################################
-##########################################################################################################################################################
-##########################################################################################################################################################
-##########################################################################################################################################################
-##########################################################################################################################################################
+######################################################################################################################################################################################################################################################################################
+######################################################################################################################################################################################################################################################################################
 
+
+# 1.
+# We call the setup function with the name of the 3D Object that is the highest on the z axis. In this case its the "hair"
+#setup("hair")
+
+# 2.
+# We either run the function below to go into camera view or just press 0 on numpad
+# go_into_camera_view()
+
+# 3.
+# Once the above function runs, we comment it out and uncommenent functions below.
 #preview_360("MATERIAL")
 #preview_360("WIREFRAME")
 #preview_360("RENDERED")
 
 
-
-#Instructions:
-# Start with create_folder and provide the current blender file path as a r"string"
-# Run "delete_all_cameras_and_targets" 
-# Run "create_camera_target"
-# Create good instructions to also use for github ( generate 5 images of a 360 of a model in Wireframe,solid and render view )
-# TODO:
-# Create a function that is called "Initial setup" that has the, delte cameras, create camera, create target etc... 
-
-# 
-# 1.
-# 2.
-#
-#
-#
-    
