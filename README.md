@@ -2,5 +2,13 @@
  A Blender Python script that automaticly generates images to showcase 3D Model.
 
 
+This is how to use it:
+
+1.
+# Call the setup function with the name of the 3D Object that is the highest on the z axis. In this case its the "hair"
+# setup("hair")
+
+
+
 Description comming soon:
-<img src="https://images.unsplash.com/photo-1545529468-42764ef8c85f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1173&q=80)" alt="drawing" width="400"/>
+<img src="https://gyazo.com/fc015e69b6c9a51103d841b3cfbefa4a"/>
