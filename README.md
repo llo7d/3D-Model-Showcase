@@ -5,10 +5,10 @@
 This is how to use it:
 
 1.
-# Call the setup function with the name of the 3D Object that is the highest on the z axis. In this case its the "hair"
-# setup("hair")
+Call the setup function with the name of the 3D Object that is the highest on the z axis. In this case its the "hair"
+setup("hair")
+
+![](https://gyazo.com/fc015e69b6c9a51103d841b3cfbefa4a.png)
 
 
 
-Description comming soon:
-<img src="https://gyazo.com/fc015e69b6c9a51103d841b3cfbefa4a"/>
