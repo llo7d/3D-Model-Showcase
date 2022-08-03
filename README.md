@@ -28,5 +28,4 @@ So in short:
 1' Run setup("hair"), wait for it execute then comment it out with #. 2' press 0 on numpad. 3' run preview_360("WIREFRAME")
 
 
-You can check out the YouTube video how I made it and how I use it here:
-Youtube Link
+You can check out the YouTube video how I made it and how I use it [https://youtu.be/qm8ZYKtM7Ho]: here 
